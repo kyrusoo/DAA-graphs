@@ -9,6 +9,16 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class MstAlgorithmsTest {
     @Test
+    void connectedExampleInputProducesExpectedTree() throws Exception {
+        Graph graph = Graph.read(Path.of("data/connected_undirected.txt"));
+        MstResult kruskal = MstAlgorithms.kruskal(graph, new Metrics());
+        MstResult prim = MstAlgorithms.prim(graph, new Metrics());
+        assertEquals(13, kruskal.totalWeight());
+        assertEquals(kruskal.totalWeight(), prim.totalWeight());
+        assertEquals(graph.vertexCount() - 1, prim.edges().size());
+    }
+
+    @Test
     void kruskalAndPrimAgreeOnOneHundredConnectedGraphs() {
         Random random = new Random(71);
         for (int trial = 0; trial < 100; trial++) {
